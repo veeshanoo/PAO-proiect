@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class Main {
     public static void main(String []args) {
-        DatecsDP25 datecs = new DatecsDP25(0);
+        DatecsDP25 datecs = DatecsDP25.getInstance();
 
         datecs.createDepartment(new Department(1, "Fruits"));
         datecs.createDepartment(new Department(2, "Mobile Phones"));

@@ -10,10 +10,16 @@ public class DatecsDP25 implements CashRegister {
     private TreeMap<Integer, Receipt> receipts;
     private TreeMap<Integer, Department> departments;
 
-    public DatecsDP25(Integer idGenerator) {
+    static private final DatecsDP25 instance = new DatecsDP25(0);
+
+    private DatecsDP25(Integer idGenerator) {
         this.idGenerator = idGenerator;
         this.receipts = new TreeMap<>();
         this.departments = new TreeMap<>();
+    }
+
+    public static DatecsDP25 getInstance() {
+        return instance;
     }
 
     public Integer getIdGenerator() {
