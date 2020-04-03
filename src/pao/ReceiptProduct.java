@@ -27,6 +27,14 @@ public class ReceiptProduct extends Product {
     }
 
     @Override
+    public String toString() {
+        return "ReceiptProduct{" +
+                "Product: " + super.toString() + "," +
+                "Discount: " + this.discount + ", " +
+                "VAT: " + this.vat + "}";
+    }
+
+    @Override
     public Double calculatePrice() {
         Double price = super.calculatePrice();
         price -= discount.calculateDiscount(price);

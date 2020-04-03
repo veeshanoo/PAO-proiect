@@ -13,6 +13,12 @@ public class DiscountByValue implements Discount {
 
     @Override
     public Double calculateDiscount(Double price) {
-        return Math.max(0.0, price - value);
+        return Math.max(0.0, value);
+    }
+
+    @Override
+    public String toString() {
+        return "DiscountByValue{" +
+                "value: " + this.value + "}";
     }
 }

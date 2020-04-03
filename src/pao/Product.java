@@ -56,4 +56,13 @@ public class Product {
     public Double calculatePrice() {
         return quantity * price;
     }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "name: '" + this.name + "', " +
+                "quantity: " + this.quantity + ", " +
+                "price: " + this.price + ", " +
+                "departmentId: " + this.departmentId + "}";
+    }
 }

@@ -10,8 +10,7 @@ public class Receipt {
     private Double receiptTotalDiscount;
     private Double receiptTotalVAT;
 
-    public Receipt(Integer receiptId) {
-        this.receiptId = receiptId;
+    public Receipt() {
         this.products = new ArrayList<>();
     }
 
@@ -79,5 +78,27 @@ public class Receipt {
         }
         this.receiptTotalVAT = total;
         return total;
+    }
+
+    public void prepareReceiptForSale() {
+        this.calculateTotalPrice();
+        this.calculateTotalDiscount();
+        this.calculateTotalVAT();
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder str = new StringBuilder();
+        str.append("Receipt{");
+        str.append("receiptId: ").append(this.receiptId).append(", ");
+        str.append("[");
+        for (ReceiptProduct product : products)
+            str.append(product.toString()).append(", ");
+        str.append("receiptTotalPrice: ").append(this.receiptTotalPrice).append(", ");
+        str.append("receiptTotalDiscount: ").append(this.receiptTotalDiscount).append(", ");
+        str.append("receiptTotalVAT: ").append(this.receiptTotalVAT);
+        str.append("]");
+        str.append("}");
+        return str.toString();
     }
 }
