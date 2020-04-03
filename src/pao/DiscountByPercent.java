@@ -1,6 +1,6 @@
 package pao;
 
-public class DiscountByPercent implements Discount {
+public final class DiscountByPercent implements Discount {
     private final Double percentage;
 
     public DiscountByPercent(Double percentage) {

@@ -6,12 +6,14 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public class DatecsDP25 implements CashRegister {
-    private Integer idGenerator;
+    private Integer idGenerator; // used for receipts
     private TreeMap<Integer, Receipt> receipts;
+    private TreeMap<Integer, Department> departments;
 
     public DatecsDP25(Integer idGenerator) {
         this.idGenerator = idGenerator;
         this.receipts = new TreeMap<>();
+        this.departments = new TreeMap<>();
     }
 
     public Integer getIdGenerator() {
@@ -30,9 +32,14 @@ public class DatecsDP25 implements CashRegister {
     }
 
     @Override
+    public void createDepartment(Department department) {
+        departments.put(department.getDepartmentId(), department);
+    }
+
+    @Override
     public void printReceipts() {
-        for (Map.Entry<Integer, Receipt> entry : receipts.entrySet()) {
-            System.out.println(entry.getValue());
+        for (Receipt rec : this.getReceipts()) {
+            System.out.println(rec);
         }
     }
 
@@ -54,8 +61,8 @@ public class DatecsDP25 implements CashRegister {
     @Override
     public Double calculateTotalSales() {
         Double total = 0.0;
-        for (Map.Entry<Integer, Receipt> entry : receipts.entrySet()) {
-            total += entry.getValue().getReceiptTotalPrice();
+        for (Receipt receipt : this.getReceipts()) {
+            total += receipt.getReceiptTotalPrice();
         }
 
         return total;
@@ -64,11 +71,30 @@ public class DatecsDP25 implements CashRegister {
     @Override
     public Double calculateTotalDiscount() {
         Double total = 0.0;
-        for (Map.Entry<Integer, Receipt> entry : receipts.entrySet()) {
-            total += entry.getValue().getReceiptTotalDiscount();
+        for (Receipt receipt : this.getReceipts()) {
+            total += receipt.getReceiptTotalDiscount();
         }
 
         return total;
+    }
+
+    @Override
+    public Double calculateTotalSalesForDepartment(Integer id) {
+        Double total = 0.0;
+        for (Receipt receipt : this.getReceipts()) {
+            for (ReceiptProduct product : receipt.getProducts()) {
+                if (id.equals(product.getDepartmentId())) {
+                    total += product.calculatePrice();
+                }
+            }
+        }
+
+        return total;
+    }
+
+    @Override
+    public String getDepartmentName(Integer id) {
+        return departments.getOrDefault(id, null).getName();
     }
 
     public Integer genId() {

@@ -1,6 +1,6 @@
 package pao;
 
-public class DiscountByValue implements Discount {
+public final class DiscountByValue implements Discount {
     private final Double value;
 
     public DiscountByValue(Double value) {
