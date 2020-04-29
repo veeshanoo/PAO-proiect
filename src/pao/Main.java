@@ -1,7 +1,5 @@
 package pao;
 
-import java.util.Date;
-
 public class Main {
     public static void main(String []args) {
         DatecsDP25 datecs = DatecsDP25.getInstance();
