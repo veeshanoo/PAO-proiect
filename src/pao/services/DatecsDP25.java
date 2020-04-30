@@ -1,6 +1,7 @@
-package pao;
+package pao.services;
 
 import pao.audit.Auditor;
+import pao.entities.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,15 +9,18 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public class DatecsDP25 implements CashRegister {
-    private Integer idGenerator; // used for receipts
+    private IdGenerator productIdGenerator; // used for products
+    private IdGenerator receiptIdGenerator; // used for receipts
+    private TreeMap<Integer, Product> products;
     private TreeMap<Integer, Receipt> receipts;
     private TreeMap<Integer, Department> departments;
     private Auditor auditor;
 
-    static private final DatecsDP25 instance = new DatecsDP25(0);
+    static private final DatecsDP25 instance = new DatecsDP25();
 
-    private DatecsDP25(Integer idGenerator) {
-        this.idGenerator = idGenerator;
+    private DatecsDP25() {
+        this.productIdGenerator = null;
+        this.receiptIdGenerator = null;
         this.receipts = new TreeMap<>();
         this.departments = new TreeMap<>();
         this.auditor = new Auditor("logs/logs.csv");
@@ -26,18 +30,56 @@ public class DatecsDP25 implements CashRegister {
         return instance;
     }
 
-    public Integer getIdGenerator() {
-        return idGenerator;
+    public IdGenerator getReceiptIdGenerator() {
+        return receiptIdGenerator;
     }
 
-    public void setIdGenerator(Integer idGenerator) {
-        this.idGenerator = idGenerator;
+    public void setReceiptIdGenerator(IdGenerator receiptIdGenerator) {
+        this.receiptIdGenerator = receiptIdGenerator;
+    }
+
+    public IdGenerator getProductIdGenerator() {
+        return productIdGenerator;
+    }
+
+    public void setProductIdGenerator(IdGenerator productIdGenerator) {
+        this.productIdGenerator = productIdGenerator;
+    }
+
+    public TreeMap<Integer, Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(TreeMap<Integer, Product> products) {
+        this.products = products;
+    }
+
+    public TreeMap<Integer, Receipt> getReceipts() {
+        return receipts;
+    }
+
+    public void setReceipts(TreeMap<Integer, Receipt> receipts) {
+        this.receipts = receipts;
+    }
+
+    public TreeMap<Integer, Department> getDepartments() {
+        return departments;
+    }
+
+    public void setDepartments(TreeMap<Integer, Department> departments) {
+        this.departments = departments;
+    }
+
+    @Override
+    public void addProduct(Product product) {
+        product.setProductId(productIdGenerator.genId());
+        products.put(product.getProductId(), product);
     }
 
     @Override
     public void newSale(Receipt receipt) {
         auditor.logAction("newSale");
-        receipt.setReceiptId(this.genId());
+        receipt.setReceiptId(receiptIdGenerator.genId());
         receipt.prepareReceiptForSale();
         receipts.put(receipt.getReceiptId(), receipt);
     }
@@ -51,13 +93,13 @@ public class DatecsDP25 implements CashRegister {
     @Override
     public void printReceipts() {
         auditor.logAction("printReceipts");
-        for (Receipt rec : this.getReceipts()) {
+        for (Receipt rec : this.getReceiptsAsList()) {
             System.out.println(rec);
         }
     }
 
     @Override
-    public List<Receipt> getReceipts() {
+    public List<Receipt> getReceiptsAsList() {
         auditor.logAction("getReceipts");
         List<Receipt> lst = new ArrayList<>();
         for (Map.Entry<Integer, Receipt> entry : receipts.entrySet()) {
@@ -77,7 +119,7 @@ public class DatecsDP25 implements CashRegister {
     public Double calculateTotalSales() {
         auditor.logAction("calculateTotalSales");
         Double total = 0.0;
-        for (Receipt receipt : this.getReceipts()) {
+        for (Receipt receipt : this.getReceiptsAsList()) {
             total += receipt.getReceiptTotalPrice();
         }
 
@@ -88,7 +130,7 @@ public class DatecsDP25 implements CashRegister {
     public Double calculateTotalDiscount() {
         auditor.logAction("calculateTotalDiscount");
         Double total = 0.0;
-        for (Receipt receipt : this.getReceipts()) {
+        for (Receipt receipt : this.getReceiptsAsList()) {
             total += receipt.getReceiptTotalDiscount();
         }
 
@@ -99,7 +141,7 @@ public class DatecsDP25 implements CashRegister {
     public Double calculateTotalSalesForDepartment(Integer id) {
         auditor.logAction("calculateTotalSalesForDepartment");
         Double total = 0.0;
-        for (Receipt receipt : this.getReceipts()) {
+        for (Receipt receipt : this.getReceiptsAsList()) {
             for (ReceiptProduct product : receipt.getProducts()) {
                 if (id.equals(product.getDepartmentId())) {
                     total += product.calculatePrice();
@@ -114,11 +156,5 @@ public class DatecsDP25 implements CashRegister {
     public String getDepartmentName(Integer id) {
         auditor.logAction("getDepartmentName");
         return departments.getOrDefault(id, null).getName();
-    }
-
-    public Integer genId() {
-        Integer cpy = this.idGenerator;
-        this.idGenerator++;
-        return cpy;
     }
 }

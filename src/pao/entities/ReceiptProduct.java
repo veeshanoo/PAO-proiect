@@ -1,11 +1,13 @@
-package pao;
+package pao.entities;
+
+import pao.services.Discount;
 
 public class ReceiptProduct extends Product {
     private Discount discount;
     private VAT vat;
 
-    public ReceiptProduct(String name, Double quantity, Double price, Integer departmentId, Discount discount, VAT vat) {
-        super(name, quantity, price, departmentId);
+    public ReceiptProduct(Integer productId, String name, Double quantity, Double price, Integer departmentId, Discount discount, VAT vat) {
+        super(productId, name, quantity, price, departmentId);
         this.discount = discount;
         this.vat = vat;
     }

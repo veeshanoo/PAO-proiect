@@ -1,16 +1,26 @@
-package pao;
+package pao.entities;
 
 public class Product {
+    private Integer productId;
     private String name;
     private Double quantity;
     private Double price;
     private Integer departmentId;
 
-    public Product(String name, Double quantity, Double price, Integer departmentId) {
+    public Product(Integer productId, String name, Double quantity, Double price, Integer departmentId) {
+        this.productId = productId;
         this.name = name;
         this.quantity = quantity;
         this.price = price;
         this.departmentId = departmentId;
+    }
+
+    public Integer getProductId() {
+        return productId;
+    }
+
+    public void setProductId(Integer productId) {
+        this.productId = productId;
     }
 
     public String getName() {
@@ -60,6 +70,7 @@ public class Product {
     @Override
     public String toString() {
         return "Product{" +
+                "productId: " + this.productId + ", " +
                 "name: '" + this.name + "', " +
                 "quantity: " + this.quantity + ", " +
                 "price: " + this.price + ", " +

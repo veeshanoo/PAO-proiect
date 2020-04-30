@@ -1,4 +1,4 @@
-package pao;
+package pao.entities;
 
 import java.util.ArrayList;
 import java.util.List;

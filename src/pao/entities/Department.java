@@ -1,4 +1,4 @@
-package pao;
+package pao.entities;
 
 public class Department {
     private Integer departmentId;

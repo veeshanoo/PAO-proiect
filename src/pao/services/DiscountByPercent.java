@@ -1,4 +1,6 @@
-package pao;
+package pao.services;
+
+import pao.services.Discount;
 
 public final class DiscountByPercent implements Discount {
     private final Double percentage;
@@ -7,13 +9,19 @@ public final class DiscountByPercent implements Discount {
         this.percentage = percentage;
     }
 
-    public Double getPercentage() {
+    @Override
+    public Double getValue() {
         return percentage;
     }
 
     @Override
     public Double calculateDiscount(Double price) {
         return price * percentage / 100.0;
+    }
+
+    @Override
+    public String identify() {
+        return "P";
     }
 
     @Override

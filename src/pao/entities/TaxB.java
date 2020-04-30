@@ -1,4 +1,4 @@
-package pao;
+package pao.entities;
 
 public final class TaxB extends VAT {
     @Override
@@ -15,5 +15,10 @@ public final class TaxB extends VAT {
     @Override
     public final Double getVAT() {
         return 0.175;
+    }
+
+    @Override
+    public String identify() {
+        return "B";
     }
 }

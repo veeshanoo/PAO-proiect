@@ -1,4 +1,6 @@
-package pao;
+package pao.services;
+
+import pao.services.Discount;
 
 public final class DiscountByValue implements Discount {
     private final Double value;
@@ -7,6 +9,7 @@ public final class DiscountByValue implements Discount {
         this.value = value;
     }
 
+    @Override
     public Double getValue() {
         return value;
     }
@@ -14,6 +17,11 @@ public final class DiscountByValue implements Discount {
     @Override
     public Double calculateDiscount(Double price) {
         return Math.max(0.0, value);
+    }
+
+    @Override
+    public String identify() {
+        return "V";
     }
 
     @Override
