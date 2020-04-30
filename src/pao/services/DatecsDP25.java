@@ -72,6 +72,7 @@ public class DatecsDP25 implements CashRegister {
 
     @Override
     public void addProduct(Product product) {
+        auditor.logAction("addProduct");
         product.setProductId(productIdGenerator.genId());
         products.put(product.getProductId(), product);
     }
