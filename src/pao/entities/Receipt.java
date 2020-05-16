@@ -12,6 +12,9 @@ public class Receipt {
 
     public Receipt() {
         this.products = new ArrayList<>();
+        this.receiptTotalPrice = 0.0;
+        this.receiptTotalDiscount = 0.0;
+        this.receiptTotalVAT = 0.0;
     }
 
     public Integer getReceiptId() {

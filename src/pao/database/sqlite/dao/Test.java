@@ -1,13 +1,12 @@
 package pao.database.sqlite.dao;
 
-import pao.entities.Department;
-import pao.entities.Product;
+import pao.entities.*;
+import pao.services.DiscountByPercent;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.List;
 
 public class Test {
     public static void createProductsTable() {
@@ -47,19 +46,69 @@ public class Test {
         }
     }
 
+    public static void createReceiptsTable() {
+        String url = "jdbc:sqlite:database/sqlite/test.db";
+
+        String sql = "CREATE TABLE IF NOT EXISTS receipts (\n"
+                + "	receipt_id integer PRIMARY KEY,\n"
+                + "	receipt_price real,\n"
+                + " receipt_discount real,\n"
+                + " receipt_vat real\n"
+                + ");";
+
+        try (Connection conn = DriverManager.getConnection(url);
+             Statement stmt = conn.createStatement()) {
+            // create a new table
+            stmt.execute(sql);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public static void createReceiptProductsTable() {
+        String url = "jdbc:sqlite:database/sqlite/test.db";
+
+        String sql = "CREATE TABLE IF NOT EXISTS receipt_products (\n"
+                + " receipt_product_id integer PRIMARY KEY,\n"
+                + "	product_id integer,"
+                + "	product_name text NOT NULL,\n"
+                + " product_quantity real,\n"
+                + " product_price real,\n"
+                + " department_id integer,\n"
+                + " receipt_id integer,\n"
+                + " product_discount_type text NOT NULL,\n"
+                + " product_discount_value real,\n "
+                + " product_vat text NOT NULL"
+                + ");";
+
+        try (Connection conn = DriverManager.getConnection(url);
+             Statement stmt = conn.createStatement()) {
+            // create a new table
+            stmt.execute(sql);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
     public static void main(String[] args) {
+        createDepartmentsTable();
         createProductsTable();
+        createReceiptsTable();
+        createReceiptProductsTable();
 
-        ProductDao dao = new ProductDao();
+//        ReceiptDao dao = new ReceiptDao();
+//        dao.insert(new Receipt());
 
-//        dao.insert(new Product(1, "pere", 2.0, 36.0, 2));
+//        Receipt receipt = new Receipt();
+//        receipt.setReceiptId(1);
+//        Receipt receipt1 = new Receipt();
+//        receipt1.setReceiptTotalDiscount(2.0);
+//        dao.delete(receipt);
 
-//        System.out.println(dao.read(new Product(1, "", 2.0, 3.0, 4)).getQuantity());
-//        List<Product> list = dao.readAll();
+//        ProductReceiptDao dao = new ProductReceiptDao();
 //
-//        for (Product el : list) {
-//            System.out.println(el.getName());
-//        }
-//        dao.update(new Product(2, "", 2.0, 2.0, 2), new Product(2, "asdfa", 3.0, 2.1, 1));
+//        ReceiptProduct receiptProduct = new ReceiptProduct(1, "fructe", 2.0, 1.0, 2, -1, 2, new DiscountByPercent(2.0), new TaxA());
+//
+//        dao.insert(receiptProduct);
     }
 }

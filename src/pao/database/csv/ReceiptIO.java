@@ -38,16 +38,16 @@ public class ReceiptIO {
             receipt.setReceiptId(Integer.parseInt(splitData[ptr++]));
             int nrProducts = Integer.parseInt(splitData[ptr++]);
             for (int i = 0; i < nrProducts; i++) {
-                ReceiptProduct receiptProduct = new ReceiptProduct(
-                        Integer.parseInt(splitData[ptr++]),
-                        splitData[ptr++],
-                        Double.parseDouble(splitData[ptr++]),
-                        Double.parseDouble(splitData[ptr++]),
-                        Integer.parseInt(splitData[ptr++]),
-                        discountType(splitData[ptr++], Double.parseDouble(splitData[ptr++])),
-                        vatType(splitData[ptr++])
-                );
-                receipt.addProduct(receiptProduct);
+//                ReceiptProduct receiptProduct = new ReceiptProduct(
+//                        Integer.parseInt(splitData[ptr++]),
+//                        splitData[ptr++],
+//                        Double.parseDouble(splitData[ptr++]),
+//                        Double.parseDouble(splitData[ptr++]),
+//                        Integer.parseInt(splitData[ptr++]),
+//                        receiptProductId, receiptId, discountType(splitData[ptr++], Double.parseDouble(splitData[ptr++])),
+//                        vatType(splitData[ptr++])
+//                );
+                receipt.addProduct(null);
             }
 
             receipt.prepareReceiptForSale();

@@ -9,6 +9,11 @@ public class DepartmentStatement implements Statement<Department> {
     }
 
     @Override
+    public String readAllFilteredStatement(String[] filters) {
+        return null;
+    }
+
+    @Override
     public String readStatement(Department filter) {
         return String.format("SELECT * FROM departments WHERE department_id = %d;", filter.getDepartmentId());
     }

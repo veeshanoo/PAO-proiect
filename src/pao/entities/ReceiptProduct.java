@@ -3,11 +3,15 @@ package pao.entities;
 import pao.services.Discount;
 
 public class ReceiptProduct extends Product {
+    private Integer receiptProductId;
+    private Integer receiptId;
     private Discount discount;
-    private VAT vat;
+    private VAT vat;    
 
-    public ReceiptProduct(Integer productId, String name, Double quantity, Double price, Integer departmentId, Discount discount, VAT vat) {
+    public ReceiptProduct(Integer productId, String name, Double quantity, Double price, Integer departmentId, Integer receiptProductId, Integer receiptId, Discount discount, VAT vat) {
         super(productId, name, quantity, price, departmentId);
+        this.receiptProductId = receiptProductId;
+        this.receiptId = receiptId;
         this.discount = discount;
         this.vat = vat;
     }
@@ -49,5 +53,21 @@ public class ReceiptProduct extends Product {
 
     public Double calculateVAT() {
         return vat.calculateVAT(this.calculatePrice());
+    }
+
+    public Integer getReceiptId() {
+        return receiptId;
+    }
+
+    public void setReceiptId(Integer receiptId) {
+        this.receiptId = receiptId;
+    }
+
+    public Integer getReceiptProductId() {
+        return receiptProductId;
+    }
+
+    public void setReceiptProductId(Integer receiptProductId) {
+        this.receiptProductId = receiptProductId;
     }
 }

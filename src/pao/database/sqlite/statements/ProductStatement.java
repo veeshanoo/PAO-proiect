@@ -9,6 +9,11 @@ public class ProductStatement implements Statement<Product> {
     }
 
     @Override
+    public String readAllFilteredStatement(String[] filters) {
+        return null;
+    }
+
+    @Override
     public String readStatement(Product filter) {
         return String.format("SELECT * FROM products WHERE product_id = %d;", filter.getProductId());
     }

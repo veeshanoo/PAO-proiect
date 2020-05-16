@@ -25,6 +25,28 @@ public class CRUD<T> implements Dao<T> {
     @Override
     public List<T> readAll() {
         String sql = this.sql.readAllStatement();
+        System.out.println(sql);
+
+        List<T> list = new ArrayList<>();
+        try (
+            Connection conn = this.connect();
+            java.sql.Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql)
+        ) {
+            while (rs.next()) {
+                list.add(this.converter.convert(rs));
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return list;
+    }
+
+    @Override
+    public List<T> readAllFiltered(String[] filters) {
+        String sql = this.sql.readAllFilteredStatement(filters);
+        System.out.println(sql);
 
         List<T> list = new ArrayList<>();
         try (
@@ -45,6 +67,7 @@ public class CRUD<T> implements Dao<T> {
     @Override
     public T read(T filter) {
         String sql = this.sql.readStatement(filter);
+//        System.out.println(sql);
 
         T t = null;
         try (
@@ -65,6 +88,7 @@ public class CRUD<T> implements Dao<T> {
     @Override
     public void insert(T element) {
         String sql = this.sql.insertStatement(element);
+//        System.out.println(sql);
 
         try (
             Connection conn = this.connect();
@@ -79,6 +103,7 @@ public class CRUD<T> implements Dao<T> {
     @Override
     public void update(T filter, T update) {
         String sql = this.sql.updateStatement(filter, update);
+//        System.out.println(sql);
 
         try (
             Connection conn = this.connect();
@@ -93,6 +118,7 @@ public class CRUD<T> implements Dao<T> {
     @Override
     public void delete(T filter) {
         String sql = this.sql.deleteStatement(filter);
+//        System.out.println(sql);
 
         try (
             Connection conn = this.connect();
