@@ -7,6 +7,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Test {
     public static void createProductsTable() {
@@ -90,11 +92,15 @@ public class Test {
         }
     }
 
-    public static void main(String[] args) {
+    public static void createTables() {
         createDepartmentsTable();
         createProductsTable();
         createReceiptsTable();
         createReceiptProductsTable();
+    }
+
+    public static void main(String[] args) {
+        createTables();
 
 //        ReceiptDao dao = new ReceiptDao();
 //        dao.insert(new Receipt());
@@ -107,8 +113,16 @@ public class Test {
 
 //        ProductReceiptDao dao = new ProductReceiptDao();
 //
-//        ReceiptProduct receiptProduct = new ReceiptProduct(1, "fructe", 2.0, 1.0, 2, -1, 2, new DiscountByPercent(2.0), new TaxA());
+//        ReceiptProduct receiptProduct = new ReceiptProduct(1, "fructe", 2.0, 1.0, 2, -1, 3, new DiscountByPercent(2.0), new TaxA());
 //
 //        dao.insert(receiptProduct);
+//        dao.insert(receiptProduct);
+
+//        String []filter = new String[1];
+//        filter[0] = "2";
+//        List<ReceiptProduct> list = dao.readAllFiltered(filter);
+//        for (ReceiptProduct product : list) {
+//            System.out.println(product.toString());
+//        }
     }
 }

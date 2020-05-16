@@ -1,9 +1,26 @@
 package pao;
 
+import pao.database.sqlite.dao.DepartmentDao;
+import pao.database.sqlite.dao.ProductDao;
+import pao.database.sqlite.dao.ReceiptDao;
+import pao.entities.Product;
+import pao.services.DatecsDP25;
+
 public class Main {
     public static void main(String []args) {
         // we load data first
-//        DatecsDP25 datecs = DatecsDP25.getInstance();
+        DatecsDP25 datecs = DatecsDP25.getInstance();
+        try {
+            datecs.setProducts(ProductDao.getInstance().loadData());
+            datecs.setDepartments(DepartmentDao.getInstance().loadData());
+            datecs.setReceipts(ReceiptDao.getInstance().loadData());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return;
+        }
+
+        System.out.println(datecs.getReceiptById(2).toString());
+
 //        try {
 //            datecs.setProductIdGenerator(IdGeneratorIO.getInstance().loadData("csv/id_gen1.csv"));
 //            datecs.setReceiptIdGenerator(IdGeneratorIO.getInstance().loadData("csv/id_gen2.csv"));

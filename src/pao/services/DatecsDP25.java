@@ -1,6 +1,9 @@
 package pao.services;
 
 import pao.audit.Auditor;
+import pao.database.sqlite.dao.DepartmentDao;
+import pao.database.sqlite.dao.ProductDao;
+import pao.database.sqlite.dao.ReceiptDao;
 import pao.entities.*;
 
 import java.util.ArrayList;
@@ -9,8 +12,6 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public class DatecsDP25 implements CashRegister {
-    private IdGenerator productIdGenerator; // used for products
-    private IdGenerator receiptIdGenerator; // used for receipts
     private TreeMap<Integer, Product> products;
     private TreeMap<Integer, Receipt> receipts;
     private TreeMap<Integer, Department> departments;
@@ -19,8 +20,6 @@ public class DatecsDP25 implements CashRegister {
     static private final DatecsDP25 instance = new DatecsDP25();
 
     private DatecsDP25() {
-        this.productIdGenerator = null;
-        this.receiptIdGenerator = null;
         this.receipts = new TreeMap<>();
         this.departments = new TreeMap<>();
         this.auditor = new Auditor("logs/logs.csv");
@@ -28,22 +27,6 @@ public class DatecsDP25 implements CashRegister {
 
     public static DatecsDP25 getInstance() {
         return instance;
-    }
-
-    public IdGenerator getReceiptIdGenerator() {
-        return receiptIdGenerator;
-    }
-
-    public void setReceiptIdGenerator(IdGenerator receiptIdGenerator) {
-        this.receiptIdGenerator = receiptIdGenerator;
-    }
-
-    public IdGenerator getProductIdGenerator() {
-        return productIdGenerator;
-    }
-
-    public void setProductIdGenerator(IdGenerator productIdGenerator) {
-        this.productIdGenerator = productIdGenerator;
     }
 
     public TreeMap<Integer, Product> getProducts() {
@@ -73,22 +56,23 @@ public class DatecsDP25 implements CashRegister {
     @Override
     public void addProduct(Product product) {
         auditor.logAction("addProduct");
-        product.setProductId(productIdGenerator.genId());
         products.put(product.getProductId(), product);
+        ProductDao.getInstance().insert(product);
     }
 
     @Override
     public void newSale(Receipt receipt) {
         auditor.logAction("newSale");
-        receipt.setReceiptId(receiptIdGenerator.genId());
         receipt.prepareReceiptForSale();
         receipts.put(receipt.getReceiptId(), receipt);
+        ReceiptDao.getInstance().insert(receipt);
     }
 
     @Override
     public void createDepartment(Department department) {
         auditor.logAction("createDepartment");
         departments.put(department.getDepartmentId(), department);
+        DepartmentDao.getInstance().insert(department);
     }
 
     @Override

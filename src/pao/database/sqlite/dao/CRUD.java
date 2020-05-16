@@ -25,7 +25,7 @@ public class CRUD<T> implements Dao<T> {
     @Override
     public List<T> readAll() {
         String sql = this.sql.readAllStatement();
-        System.out.println(sql);
+//        System.out.println(sql);
 
         List<T> list = new ArrayList<>();
         try (
@@ -46,7 +46,7 @@ public class CRUD<T> implements Dao<T> {
     @Override
     public List<T> readAllFiltered(String[] filters) {
         String sql = this.sql.readAllFilteredStatement(filters);
-        System.out.println(sql);
+//        System.out.println(sql);
 
         List<T> list = new ArrayList<>();
         try (
