@@ -48,13 +48,28 @@ public class DepartmentEdit {
         Button saveButton = new Button("Save");
         GridPane.setConstraints(saveButton, 1, 0);
         saveButton.setOnAction(ev -> {
-            department.setName(nameField.getText());
-            if (department.getDepartmentId().equals(-1)) {
-                DatecsDP25.getInstance().createDepartment(department);
-                window.close();
-            } else {
-                DatecsDP25.getInstance().updateDepartment(department);
+            Boolean err = false;
+            try {
+                if (nameField.getText().length() == 0) {
+                    throw new Exception("Name field cannot be empty");
+                }
+                department.setName(nameField.getText());
+            } catch (Exception e) {
+                AlertBox.display(e.getMessage());
+                err = true;
+            } finally {
+                if (err.equals(false)) {
+                    if (department.getDepartmentId().equals(-1)) {
+                        DatecsDP25.getInstance().createDepartment(department);
+                    } else {
+                        DatecsDP25.getInstance().updateDepartment(department);
+                    }
+                    window.close();
+                    App app = new App();
+                    App.setWindowScene(app.departmentsMenuScene());
+                }
             }
+
         });
 
         grid.getChildren().add(closeButton);

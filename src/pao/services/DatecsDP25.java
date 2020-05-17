@@ -30,10 +30,12 @@ public class DatecsDP25 implements CashRegister {
     }
 
     public TreeMap<Integer, Product> getProducts() {
+        auditor.logAction("getProducts");
         return products;
     }
 
     public void setProducts(TreeMap<Integer, Product> products) {
+        auditor.logAction("setProducts");
         this.products = products;
     }
 
@@ -46,11 +48,13 @@ public class DatecsDP25 implements CashRegister {
     }
 
     public TreeMap<Integer, Department> getDepartments() {
+        auditor.logAction("getDepartments");
         return departments;
     }
 
     public void setDepartments(TreeMap<Integer, Department> departments) {
         this.departments = departments;
+        auditor.logAction("setDepartments");
     }
 
     @Override

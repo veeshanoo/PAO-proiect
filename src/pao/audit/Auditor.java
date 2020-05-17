@@ -21,7 +21,7 @@ public class Auditor {
             if (!file.exists()) {
                 boolean flag = file.createNewFile();
                 BufferedWriter writer = new BufferedWriter(new FileWriter(this.fileName, true));
-                writer.write("Action,Timestamp\n");
+                writer.write("Action,Thread,Timestamp\n");
                 writer.close();
             }
         } catch (IOException e) {
@@ -30,7 +30,7 @@ public class Auditor {
 
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(this.fileName, true));
-            writer.write(actionName + "," + this.generateTimeStamp() + "\n");
+            writer.write(actionName + "," + Thread.currentThread().getName() + "," + this.generateTimeStamp() + "\n");
             writer.close();
         } catch (IOException e) {
             e.printStackTrace();

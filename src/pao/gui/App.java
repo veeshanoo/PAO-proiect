@@ -21,9 +21,9 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public class App extends Application {
-    Stage window;
+    static private Stage window;
 
-    public static void main(String []args) {
+    public static void run(String []args) {
         launch(args);
     }
 
@@ -152,6 +152,7 @@ public class App extends Application {
             GridPane.setConstraints(deleteButtons[cnt], 4, cnt + 2);
             deleteButtons[cnt].setOnAction(ev -> {
                 ProductDao.getInstance().delete(product);
+                window.setScene(productMenuScene());
             });
 
             grid.getChildren().add(productIdLabels[cnt]);
@@ -271,5 +272,9 @@ public class App extends Application {
         window.setMaxWidth(width);
         window.setMinHeight(height);
         window.setMaxHeight(height);
+    }
+
+    public static void setWindowScene(Scene scene) {
+        window.setScene(scene);
     }
 }

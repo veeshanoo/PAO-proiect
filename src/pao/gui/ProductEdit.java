@@ -86,19 +86,28 @@ public class ProductEdit {
         saveButton.setText("Save");
         GridPane.setConstraints(saveButton, 1, 0);
         saveButton.setOnAction(ev -> {
+            Boolean err = false;
             try {
                 product.setName(nameField.getText());
+                if (nameField.getText().length() == 0) {
+                    throw new Exception("Name field cannot be empty");
+                }
                 product.setQuantity(Double.parseDouble(quantityField.getText()));
                 product.setPrice(Double.parseDouble(priceField.getText()));
                 product.setDepartmentId(Integer.parseInt(departmentField.getText()));
             } catch (Exception e) {
                 AlertBox.display(e.getMessage());
+                err = true;
             } finally {
-                if (product.getProductId().equals(-1)) {
-                    DatecsDP25.getInstance().addProduct(product);
+                if (err.equals(false)) {
+                    if (product.getProductId().equals(-1)) {
+                        DatecsDP25.getInstance().addProduct(product);
+                    } else {
+                        DatecsDP25.getInstance().updateProduct(product);
+                    }
                     window.close();
-                } else {
-                    DatecsDP25.getInstance().updateProduct(product);
+                    App app = new App();
+                    App.setWindowScene(app.productMenuScene());
                 }
             }
         });
