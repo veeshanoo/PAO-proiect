@@ -2,10 +2,12 @@ package pao.gui;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
@@ -30,6 +32,7 @@ public class App extends Application {
     public void start(Stage stage) throws Exception {
         window = stage;
         window.setTitle("Cash register app");
+        resizeWindow(300, 300);
 
         window.setScene(mainMenuScene());
 
@@ -37,35 +40,34 @@ public class App extends Application {
     }
 
     public Scene mainMenuScene() {
-        GridPane grid = new GridPane();
-        grid.setPadding(new Insets(20, 20, 20, 20));
-        grid.setVgap(8);
-        grid.setHgap(10);
+        VBox vbox = new VBox(10);
 
         Button productsButton = new Button();
         productsButton.setText("Go to products menu");
-        GridPane.setConstraints(productsButton, 0, 0);
         productsButton.setOnAction(ev -> {
+            resizeWindow(570, 700);
             window.setScene(productMenuScene());
         });
 
         Button departmentsButton = new Button();
-        departmentsButton.setText("Go to departments button");
-        GridPane.setConstraints(departmentsButton, 0, 1);
+        departmentsButton.setText("Go to departments menu");
         departmentsButton.setOnAction(ev -> {
+            resizeWindow(510, 700);
             window.setScene(departmentsMenuScene());
         });
 
         Button closeButton = new Button();
         closeButton.setText("Close");
-        GridPane.setConstraints(closeButton, 0, 2);
         closeButton.setOnAction(ev -> {
             window.close();
         });
 
-        grid.getChildren().addAll(productsButton, departmentsButton, closeButton);
+        vbox.setAlignment(Pos.CENTER);
+        vbox.getChildren().add(productsButton);
+        vbox.getChildren().add(departmentsButton);
+        vbox.getChildren().add(closeButton);
 
-        return new Scene(grid, 300, 300);
+        return new Scene(vbox, 300, 300);
     }
 
     public Scene productMenuScene() {
@@ -87,6 +89,7 @@ public class App extends Application {
         mainMenuButton.setText("Go to main menu");
         GridPane.setConstraints(mainMenuButton, 0, 0);
         mainMenuButton.setOnAction(ev -> {
+            resizeWindow(300, 300);
             window.setScene(mainMenuScene());
         });
 
@@ -188,6 +191,7 @@ public class App extends Application {
         mainMenuButton.setText("Go to main menu");
         GridPane.setConstraints(mainMenuButton, 0, 0);
         mainMenuButton.setOnAction(ev -> {
+            resizeWindow(300, 300);
             window.setScene(mainMenuScene());
         });
 
@@ -259,5 +263,14 @@ public class App extends Application {
         grid.getChildren().add(nameLabel);
 
         return new Scene(grid, 500, 500);
+    }
+
+    private void resizeWindow(int width, int height) {
+        window.setWidth(width);
+        window.setHeight(height);
+        window.setMinWidth(width);
+        window.setMaxWidth(width);
+        window.setMinHeight(height);
+        window.setMaxHeight(height);
     }
 }

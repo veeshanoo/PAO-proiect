@@ -17,7 +17,15 @@ public class ProductEdit {
 
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle("Product edit");
-        window.setMinWidth(250);
+
+        int width = 350;
+        int height = 260;
+        window.setWidth(width);
+        window.setHeight(height);
+        window.setMinWidth(width);
+        window.setMaxWidth(width);
+        window.setMinHeight(height);
+        window.setMaxHeight(height);
 
         GridPane grid = new GridPane();
         grid.setPadding(new Insets(20, 20, 20, 20));
@@ -84,7 +92,7 @@ public class ProductEdit {
                 product.setPrice(Double.parseDouble(priceField.getText()));
                 product.setDepartmentId(Integer.parseInt(departmentField.getText()));
             } catch (Exception e) {
-                System.out.println(e.getMessage());
+                AlertBox.display(e.getMessage());
             } finally {
                 if (product.getProductId().equals(-1)) {
                     DatecsDP25.getInstance().addProduct(product);
@@ -94,7 +102,6 @@ public class ProductEdit {
                 }
             }
         });
-
 
         grid.getChildren().add(closeButton);
         grid.getChildren().add(saveButton);

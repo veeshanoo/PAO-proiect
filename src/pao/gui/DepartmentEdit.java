@@ -8,11 +8,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import org.w3c.dom.Text;
 import pao.entities.Department;
 import pao.services.DatecsDP25;
-
-import java.awt.event.TextEvent;
 
 public class DepartmentEdit {
     public static void display(Department department) {
@@ -20,7 +17,10 @@ public class DepartmentEdit {
 
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle("Department edit");
-        window.setMinWidth(250);
+        window.setMinWidth(350);
+        window.setMaxWidth(350);
+        window.setMinHeight(140);
+        window.setMaxHeight(140);
 
         GridPane grid = new GridPane();
         grid.setPadding(new Insets(20, 20, 20, 20));
@@ -62,7 +62,7 @@ public class DepartmentEdit {
         grid.getChildren().add(nameLabel);
         grid.getChildren().add(nameField);
 
-        Scene scene = new Scene(grid, 300, 300);
+        Scene scene = new Scene(grid, 350, 140);
         window.setScene(scene);
         window.show();
     }
