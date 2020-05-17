@@ -61,6 +61,20 @@ public class DatecsDP25 implements CashRegister {
     }
 
     @Override
+    public void updateProduct(Product product) {
+        auditor.logAction("updateProduct");
+        ProductDao.getInstance().update(product, product);
+        products.put(product.getProductId(), product);
+    }
+
+    @Override
+    public void deleteProduct(Product product) {
+        auditor.logAction("deleteProduct");
+        ProductDao.getInstance().delete(product);
+        products.remove(product.getProductId());
+    }
+
+    @Override
     public void newSale(Receipt receipt) {
         auditor.logAction("newSale");
         receipt.prepareReceiptForSale();
@@ -73,6 +87,20 @@ public class DatecsDP25 implements CashRegister {
         auditor.logAction("createDepartment");
         departments.put(department.getDepartmentId(), department);
         DepartmentDao.getInstance().insert(department);
+    }
+
+    @Override
+    public void updateDepartment(Department department) {
+        auditor.logAction("updateDepartment");
+        DepartmentDao.getInstance().update(department, department);
+        departments.put(department.getDepartmentId(), department);
+    }
+
+    @Override
+    public void deleteDepartment(Department department) {
+        auditor.logAction("deleteDepartment");
+        DepartmentDao.getInstance().delete(department);
+        departments.remove(department.getDepartmentId());
     }
 
     @Override

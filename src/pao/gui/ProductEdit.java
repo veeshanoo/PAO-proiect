@@ -3,10 +3,13 @@ package pao.gui;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import pao.entities.Product;
+import pao.services.DatecsDP25;
 
 public class ProductEdit {
     public static void display(Product product) {
@@ -21,14 +24,90 @@ public class ProductEdit {
         grid.setVgap(8);
         grid.setHgap(10);
 
-        Button closeButton = new Button();
-        closeButton.setText("Close");
+        Button closeButton = new Button("Close");
         GridPane.setConstraints(closeButton, 0, 0);
-        closeButton.setOnAction(e -> {
+        closeButton.setOnAction(ev -> {
             window.close();
         });
 
-        Scene scene = new Scene(grid, 300, 300);
+        Label nameLabel = new Label("Product name:");
+        GridPane.setConstraints(nameLabel, 0, 1);
+
+        TextField nameField = new TextField();
+        if (product.getProductId().equals(-1)) {
+            nameField.setPromptText("enter product name...");
+        } else {
+            nameField.setText(product.getName());
+        }
+        GridPane.setConstraints(nameField, 1, 1);
+
+        Label quantityLabel = new Label("Quantity:");
+        GridPane.setConstraints(quantityLabel, 0, 2);
+
+        TextField quantityField = new TextField();
+        if (product.getProductId().equals(-1)) {
+            quantityField.setPromptText("enter quantity...");
+        } else {
+            quantityField.setText(String.format("%.2f", product.getQuantity()));
+        }
+        GridPane.setConstraints(quantityField, 1, 2);
+
+        Label priceLabel = new Label("Price:");
+        GridPane.setConstraints(priceLabel, 0, 3);
+
+        TextField priceField = new TextField();
+        if (product.getProductId().equals(-1)) {
+            priceField.setPromptText("enter price...");
+        } else {
+            priceField.setText(String.format("%.2f", product.getPrice()));
+        }
+        GridPane.setConstraints(priceField, 1, 3);
+
+        Label departmentLabel = new Label("Department id:");
+        GridPane.setConstraints(departmentLabel, 0, 4);
+
+        TextField departmentField = new TextField();
+        if (product.getProductId().equals(-1)) {
+            departmentField.setPromptText("enter department id...");
+        } else {
+            departmentField.setText(product.getDepartmentId().toString());
+        }
+        GridPane.setConstraints(departmentField, 1, 4);
+
+        Button saveButton = new Button();
+        saveButton.setText("Save");
+        GridPane.setConstraints(saveButton, 1, 0);
+        saveButton.setOnAction(ev -> {
+            try {
+                product.setName(nameField.getText());
+                product.setQuantity(Double.parseDouble(quantityField.getText()));
+                product.setPrice(Double.parseDouble(priceField.getText()));
+                product.setDepartmentId(Integer.parseInt(departmentField.getText()));
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            } finally {
+                if (product.getProductId().equals(-1)) {
+                    DatecsDP25.getInstance().addProduct(product);
+                    window.close();
+                } else {
+                    DatecsDP25.getInstance().updateProduct(product);
+                }
+            }
+        });
+
+
+        grid.getChildren().add(closeButton);
+        grid.getChildren().add(saveButton);
+        grid.getChildren().add(nameLabel);
+        grid.getChildren().add(nameField);
+        grid.getChildren().add(quantityLabel);
+        grid.getChildren().add(quantityField);
+        grid.getChildren().add(priceLabel);
+        grid.getChildren().add(priceField);
+        grid.getChildren().add(departmentLabel);
+        grid.getChildren().add(departmentField);
+
+        Scene scene = new Scene(grid, 500, 300);
         window.setScene(scene);
         window.show();
     }
